@@ -3,41 +3,30 @@ package fr.wcs.blablacrade;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by bastienwcs on 21/09/17.
- */
+import java.util.Date;
 
 public class SearchRequestModel implements Parcelable {
 
-    private String depare;
-    private String oùilva;
-    private String quan;
+    private String depart;
+    private String destination;
+    private Date date;
 
-    public String getDepare() {
-        return depare;
+    public SearchRequestModel(String depart, String destination, Date date) {
+        this.depart = depart;
+        this.destination = destination;
+        this.date = date;
     }
 
-    public String getOùilva() {
-        return oùilva;
+    public String getDepart() {
+        return depart;
     }
 
-    public SearchRequestModel(String depare, String oùilva, String quan) {
-        this.depare = depare;
-        this.oùilva = oùilva;
-        this.quan = quan;
+    public String getDestination() {
+        return destination;
     }
 
-        protected SearchRequestModel(Parcel in) {
-            depare = in.readString();
-            oùilva = in.readString();
-            quan = in.readString();
-        }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(depare);
-        dest.writeString(oùilva);
-        dest.writeString(quan);
+    public Date getDate() {
+        return date;
     }
 
     @Override
@@ -45,9 +34,17 @@ public class SearchRequestModel implements Parcelable {
         return 0;
     }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(depart);
+        dest.writeString(destination);
+        dest.writeLong(date.getTime());
+    }
+
+
     public static final Creator<SearchRequestModel> CREATOR = new Creator<SearchRequestModel>() {
-                @Override
-                public SearchRequestModel createFromParcel(Parcel in) {
+        @Override
+        public SearchRequestModel createFromParcel(Parcel in) {
             return new SearchRequestModel(in);
         }
 
@@ -57,7 +54,10 @@ public class SearchRequestModel implements Parcelable {
         }
     };
 
-    public String getQuan() {
-        return quan;
+    public SearchRequestModel(Parcel in) {
+        this.depart = in.readString();
+        this.destination = in.readString();
+        this.date = new Date(in.readLong());
     }
+
 }
